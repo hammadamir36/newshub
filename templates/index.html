@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewsHub Advanced News Aggregator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-newspaper"></i>
+                <span>NewsHub</span>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search news articles...">
+                <button onclick="searchNews()"><i class="fas fa-search"></i></button>
+            </div>
+
+            <div class="header-actions">
+                <button class="btn-refresh" onclick="refreshNews()">
+                    <i class="fas fa-sync-alt" id="refreshIcon"></i>
+                    <span>Refresh</span>
+                </button>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <div class="nav-container">
+        <nav id="categoryNav">
+            <div class="nav-item active" data-category="home">
+                <i class="fas fa-home"></i> Home
+            </div>
+            <div class="nav-item" data-category="World">
+                <i class="fas fa-globe"></i> World
+            </div>
+            <div class="nav-item" data-category="Politics">
+                <i class="fas fa-landmark"></i> Politics
+            </div>
+            <div class="nav-item" data-category="Business">
+                <i class="fas fa-briefcase"></i> Business
+            </div>
+            <div class="nav-item" data-category="Sports">
+                <i class="fas fa-football-ball"></i> Sports
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Stats Bar -->
+        <div class="stats-bar" id="statsBar">
+            <div class="stat-card">
+                <div class="stat-icon blue">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="totalArticles">0</h3>
+                    <p>Total Articles</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="trendingCount">0</h3>
+                    <p>Trending Now</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange">
+                    <i class="fas fa-rss"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="sourcesCount">0</h3>
+                    <p>News Sources</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon purple">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="successRate">0%</h3>
+                    <p>Success Rate</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-section">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label>Sentiment</label>
+                    <select id="sentimentFilter" onchange="applyFilters()">
+                        <option value="">All Sentiments</option>
+                        <option value="positive">Positive</option>
+                        <option value="neutral">Neutral</option>
+                        <option value="negative">Negative</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Tier</label>
+                    <select id="tierFilter" onchange="applyFilters()">
+                        <option value="">All Tiers</option>
+                        <option value="free">Free</option>
+                        <option value="premium">Premium</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Sort By</label>
+                    <select id="sortFilter" onchange="applyFilters()">
+                        <option value="date">Latest First</option>
+                        <option value="trending">Trending</option>
+                        <option value="source">By Source</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>View Mode</label>
+                    <div class="view-toggle">
+                        <button class="view-btn active" onclick="setView('grid')">
+                            <i class="fas fa-th"></i> Grid
+                        </button>
+                        <button class="view-btn" onclick="setView('list')">
+                            <i class="fas fa-list"></i> List
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- News Grid -->
+        <div class="news-section">
+            <div class="section-header">
+                <h2>
+                    <i class="fas fa-newspaper"></i>
+                    <span id="sectionTitle">Latest News</span>
+                </h2>
+                <button class="btn-outline" onclick="loadMore()">
+                    <i class="fas fa-plus"></i> Load More
+                </button>
+            </div>
+            <div class="news-grid" id="newsGrid">
+                <!-- Loading State -->
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading amazing news for you...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Article Modal -->
+    <div class="modal" id="articleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="/static/js/sketch.js"></script>
+</body>
+</html>
